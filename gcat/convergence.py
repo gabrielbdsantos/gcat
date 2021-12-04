@@ -24,7 +24,6 @@ References
 """
 
 import math
-import warnings
 
 
 def apparent_order_of_convergence(
@@ -34,7 +33,6 @@ def apparent_order_of_convergence(
     f1: float,
     f2: float,
     f3: float,
-    min_ref_factor: float = 1.3,
     omega: float = 0.5,
     tol: float = 1e-5,
     max_iter: float = 1e6,
@@ -89,22 +87,9 @@ def apparent_order_of_convergence(
     r21 = h2 / h1
     r32 = h3 / h2
 
-    # The choice
-    if r21 < min_ref_factor or r32 < min_ref_factor:
-        warnings.warn(
-            f"The grid refinement factor is recommended to be at"
-            f" least {min_ref_factor}."
-        )
-
     epsilon21 = f2 - f1
     epsilon32 = f3 - f2
     epsilon_ratio = epsilon32 / epsilon21
-
-    # if epsilon_ratio < 0:
-    #     warnings.warn(
-    #         "Well, we have a negative epsilon ratio. This may"
-    #         " indicate an oscillatory convergence."
-    #     )
 
     # Get the signal of 'epsilon_ratio'
     s = 1 - 2 * (epsilon_ratio < 0)
