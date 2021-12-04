@@ -43,11 +43,11 @@ def apparent_order_of_convergence(
     Parameters
     ----------
     h1 : float
-        Representative grid size for the 1st grid (finer).
+        Representative grid size for the 1st grid (fine).
     h2 : float
         Representative grid size for the 2nd grid (medium).
     h3 : float
-        Representative grid size for the 3rd grid (coarser).
+        Representative grid size for the 3rd grid (coarse).
     f1 : float
         Solution on the 1st grid.
     f2 : float
@@ -232,11 +232,11 @@ def relative_error(f1: float, f2: float) -> float:
 def gci_fine(
     f1: float, f2: float, r21: float, p: float, safety_factor: float = 1.25
 ) -> float:
-    """Calculate an error estimation for the fine grid.
+    """Calculate an error estimator for the finer grid.
 
-    A fine-grid Richardson error estimator approximates the error in a
-    fine-grid solution by comparing the solution to that with of a
-    coarse grid. It can be defined as:
+    Compute an error estimator for the fine grid, indicating how much
+    the solution would change with further grid refinement. It can be
+    expressed as:
 
         E_fine = Fs * (f1/f2) / (r21^p - 1)                     (1)
 
@@ -270,13 +270,15 @@ def gci_fine(
 def gci_coarse(
     f1: float, f2: float, r21: float, p: float, safety_factor: float = 1.25
 ) -> float:
-    """Calculate an error estimation for the coarse grid.
+    """Calculate an error estimator for the coarse grid.
 
-    A coarse-grid Richardson error estimator approximates the error in a
-    coarse-grid solution by comparing the solution to that with of a
-    coarse grid. It can be defined as:
+    Compute an error estimator for the coarse grid, indicating how much
+    the solution would change with further grid refinement. It can be
+    expressed as:
 
-        E_fine = Fs * (f1/f2)*r21^p / (r21^p - 1)               (1)
+        E_coarse = Fs * (f1/f2)*r21^p / (r21^p - 1)             (1)
+    or
+        E_coarse = E_fine * r21^p                               (2)
 
     where Fs is a safety factor, f1 is the solution on the fine grid, f2
     is the solution on the coarse grid, r21 is the refinement factor
@@ -302,13 +304,11 @@ def gci_coarse(
         The estimated error for the coarse-grid solution.
 
     """
-    return (
-        (safety_factor * relative_error(f1, f2)) * r21 ** p / (r21 ** p - 1.0)
-    )
+    return gci_fine(f1, f2, r21, p, safety_factor) * (r21 ** p)
 
 
 def asymptotic_ratio(
-    gci21_fine: float, gci32_fine: float, r21: float, p: float
+    gci21: float, gci32: float, r21: float, p: float
 ) -> float:
     """Calculate the ratio between succesive solutions.
 
@@ -317,8 +317,8 @@ def asymptotic_ratio(
 
     Parameters
     ----------
-    gci21_fine : float
-    gci32_fine : float
+    gci21 : float
+    gci32 : float
     r21 : float
         The refinement factor between the coarse and the fine grid.
     p : float
@@ -330,4 +330,4 @@ def asymptotic_ratio(
         The asymptotic ratio of convergence.
 
     """
-    return r21 ** p * (gci21_fine / gci32_fine)
+    return r21 ** p * (gci21 / gci32)
