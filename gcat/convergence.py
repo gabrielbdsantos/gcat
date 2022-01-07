@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""Utilities for convergence-related calculations.
+"""Provide utilities for convergence-related calculations via GCIA.
 
-Classes and functions within this module follow the nomenclature
-presented in [1, 2]. References used in docstrings are presented in the
-``References`` section below.
+All functions within this module follow the nomenclature presented in
+[1, 2]. References used in docstrings are presented in the ``References``
+section below.
 
 References
 ----------
-[1] I. B. Celik, U. Ghia, P. J. Roache, C. J. Freitas, H. Coleman, and
-    P. E. Raad, Procedure for Estimation and Reporting of Uncertainty
-    Due to Discretization in CFD Applications,” J. Fluids Eng., vol.
-    130, no. 7, p. 078001, Jul. 2008, doi: 10.1115/1.2960953.
+[1] I. B. Celik, U. Ghia, P. J. Roache, C. J. Freitas, H. Coleman, and P.
+    E. Raad, Procedure for Estimation and Reporting of Uncertainty Due to
+    Discretization in CFD Applications,” J. Fluids Eng., vol. 130, no. 7,
+    p. 078001, Jul. 2008, doi: 10.1115/1.2960953.
 
 [2] P. J. Roache, Quantification of Uncertainty in Computational Fluid
     Dynamics, Annu. Rev. Fluid Mech., vol. 29, no. 1, pp. 123–160, Jan.
@@ -20,7 +20,6 @@ References
 [3] Examining Spatial (Grid) Convergence.
     https://www.grc.nasa.gov/WWW/wind/valid/tutorial/spatconv.html
     (accessed Oct. 22, 2020).
-
 """
 
 import math
@@ -194,7 +193,6 @@ def richardson_extrapolation(
     TypeError
         At least one of the input parameters does not follow the type
         requirements presented in the ``Parameters`` section.
-
     """
     # Compute the grid refinement factor
     r21 = h2 / h1
@@ -224,7 +222,6 @@ def relative_error(f1: float, f2: float) -> float:
     ------
     ZeroDivisionError
         `f1` is zero.
-
     """
     return abs((f1 - f2) / f1)
 
@@ -262,7 +259,6 @@ def gci_fine(
     -------
     float
         The estimated error for the fine-grid solution.
-
     """
     return (safety_factor * relative_error(f1, f2)) / (r21 ** p - 1.0)
 
@@ -328,6 +324,5 @@ def asymptotic_ratio(
     -------
     float
         The asymptotic ratio of convergence.
-
     """
     return r21 ** p * (gci21 / gci32)
