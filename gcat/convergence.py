@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""Provide utilities for convergence-related calculations via GCIA.
+"""Provide utilities for convergence-related calculations via GCI.
 
-All functions within this module follow the nomenclature presented in
+The naming convention in this module follows the nomenclature presented in
 [1, 2]. References used in docstrings are presented in the ``References``
 section below.
 
@@ -56,13 +56,12 @@ def apparent_order_of_convergence(
     min_ref_factor : float, optional
         Minimum refinement factor allowed.
     omega : float, optional
-        Relaxation factor used in the bleding fuction during the
-        iterative process. Should be between zero and one.
+        Relaxation factor used in the bleding fuction during the iterative
+        process. Should be between zero and one.
     tol : float
         Maximum tolerance for the iterative process.
     max_iter : int
-        Maximum number of iterations. Prevents an infinite interation
-        loop.
+        Maximum number of iterations. Prevents an infinite interation loop.
     max_residual : float
         Maximum residual for the interative process.
 
@@ -74,8 +73,8 @@ def apparent_order_of_convergence(
     Raises
     ------
     RuntimeError
-        The iterative process did not converge before reaching either
-        the maximum number of iterations or the maximum residual.
+        The iterative process did not converge before reaching either the
+        maximum number of iterations or the maximum residual.
     ValueError
         `omega` is out of bounds
     """
@@ -110,7 +109,7 @@ def apparent_order_of_convergence(
         p1 = p
 
         # Calculate q
-        q = math.log((r21 ** p1 - s) / (r32 ** p1 - s))
+        q = math.log((r21**p1 - s) / (r32**p1 - s))
 
         # Calculate p2
         p2 = (1.0 / math.log(r21)) * abs(math.log(abs(epsilon_ratio)) + q)
@@ -137,8 +136,8 @@ def richardson_extrapolation(
     estimate of the continuum value (value at zero grid spacing) from a
     series of lower-order discrete values.
 
-    A simulation will yield a quantity f that can be expressed in a
-    general form by the series expansion:
+    A simulation will yield a quantity f that can be expressed in a general
+    form by the series expansion:
 
         f = f_exact + g1*h + g2*h2 + g3*h3 + ...                (1)
 
@@ -147,11 +146,11 @@ def richardson_extrapolation(
     "second-order" if g1 = 0. The f_exact = 0 is the continuum value at
     zero grid spacing.
 
-    If one assumes a second-order solution and has computed f on two
-    grids of spacing h1 and h2 with h1 being the finer (smaller)
-    spacing, then one can write two equations for the above expansion,
-    neglect third-order and higher terms, and solve for f_exact = 0 to
-    estimate the continuum value,
+    If one assumes a second-order solution and has computed f on two grids
+    of spacing h1 and h2 with h1 being the finer (smaller) spacing, then
+    one can write two equations for the above expansion, neglect
+    third-order and higher terms, and solve for f_exact = 0 to estimate the
+    continuum value,
 
         f_exact = f1 + (f1 - f2) / (r^p - 1)                    (2)
 
@@ -160,13 +159,13 @@ def richardson_extrapolation(
         r = h2 / h1                                             (3)
 
     In general, we will consider f_exact = 0 to be p + 1 order accurate.
-    Richardson extrapolation can be applied for the solution at each
-    grid point, or to solution functionals, such as pressure recovery or
-    drag. This assumes that the solution is globally second-order in
-    addition to locally second-order and that the solution functionals
-    were computed using consistent second-order methods. Other cautions
-    with using Richardson extrapolation (non-conservative, amplification
-    of round-off error, etc...) are discussed in Ref. [2].
+    Richardson extrapolation can be applied for the solution at each grid
+    point, or to solution functionals, such as pressure recovery or drag.
+    This assumes that the solution is globally second-order in addition to
+    locally second-order and that the solution functionals were computed
+    using consistent second-order methods. Other cautions with using
+    Richardson extrapolation (non-conservative, amplification of round-off
+    error, etc...) are discussed in Ref. [2].
 
     Parameters
     ----------
@@ -198,7 +197,7 @@ def richardson_extrapolation(
     r21 = h2 / h1
 
     # Compute the continue value at zero grid spacing
-    f_exact = ((r21 ** p) * f1 - f2) / (r21 ** p - 1.0)
+    f_exact = ((r21**p) * f1 - f2) / (r21**p - 1.0)
 
     return f_exact
 
@@ -231,16 +230,15 @@ def gci_fine(
 ) -> float:
     """Calculate an error estimator for the finer grid.
 
-    Compute an error estimator for the fine grid, indicating how much
-    the solution would change with further grid refinement. It can be
-    expressed as:
+    Compute an error estimator for the fine grid, indicating how much the
+    solution would change with further grid refinement. It can be expressed
+    as:
 
         E_fine = Fs * (f1/f2) / (r21^p - 1)                     (1)
 
-    where Fs is a safety factor, f1 is the solution on the fine grid, f2
-    is the solution on the coarse grid, r21 is the refinement factor
-    between the coarse and fine grid, and p is the apparent order of
-    convergence.
+    where Fs is a safety factor, f1 is the solution on the fine grid, f2 is
+    the solution on the coarse grid, r21 is the refinement factor between
+    the coarse and fine grid, and p is the apparent order of convergence.
 
     Parameters
     ----------
@@ -260,7 +258,7 @@ def gci_fine(
     float
         The estimated error for the fine-grid solution.
     """
-    return (safety_factor * relative_error(f1, f2)) / (r21 ** p - 1.0)
+    return (safety_factor * relative_error(f1, f2)) / (r21**p - 1.0)
 
 
 def gci_coarse(
@@ -268,18 +266,17 @@ def gci_coarse(
 ) -> float:
     """Calculate an error estimator for the coarse grid.
 
-    Compute an error estimator for the coarse grid, indicating how much
-    the solution would change with further grid refinement. It can be
-    expressed as:
+    Compute an error estimator for the coarse grid, indicating how much the
+    solution would change with further grid refinement. It can be expressed
+    as:
 
         E_coarse = Fs * (f1/f2)*r21^p / (r21^p - 1)             (1)
     or
         E_coarse = E_fine * r21^p                               (2)
 
-    where Fs is a safety factor, f1 is the solution on the fine grid, f2
-    is the solution on the coarse grid, r21 is the refinement factor
-    between the coarse and fine grid, and p is the apparent order of
-    convergence.
+    where Fs is a safety factor, f1 is the solution on the fine grid, f2 is
+    the solution on the coarse grid, r21 is the refinement factor between
+    the coarse and fine grid, and p is the apparent order of convergence.
 
     Parameters
     ----------
@@ -300,7 +297,7 @@ def gci_coarse(
         The estimated error for the coarse-grid solution.
 
     """
-    return gci_fine(f1, f2, r21, p, safety_factor) * (r21 ** p)
+    return gci_fine(f1, f2, r21, p, safety_factor) * (r21**p)
 
 
 def asymptotic_ratio(
@@ -325,4 +322,4 @@ def asymptotic_ratio(
     float
         The asymptotic ratio of convergence.
     """
-    return r21 ** p * (gci21 / gci32)
+    return r21**p * (gci21 / gci32)

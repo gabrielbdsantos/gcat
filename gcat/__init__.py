@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""Grid Convergence Analysis Tool kit (GCAT)."""
+"""Grid Convergence Analysis Toolkit (GCAT)."""
 
-__version__ = "0.1.0-alpha"
+__version__ = "0.1.0"
 
 from .convergence import (
     apparent_order_of_convergence,
