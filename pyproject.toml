@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gcat"
-version = "0.1.0"
+version = "1.0.0"
 description = "A grid convergence analysis toolkit (GCAT) in Python."
 authors = ["Gabriel B. Santos <gabriel.bertacco@unesp.br>"]
 license = "MIT"
