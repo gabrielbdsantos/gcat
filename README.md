@@ -1,5 +1,7 @@
 # GCAT: grid convergence analysis toolkit
 
+[![black](https://github.com/gabrielbdsantos/gcat/actions/workflows/black.yaml/badge.svg?branch=master&event=push)](https://github.com/gabrielbdsantos/gcat/actions/workflows/black.yaml)
+
 The implementation is completed. Thus, do not expect updates to the repository
 anymore.
 
