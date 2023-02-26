@@ -26,5 +26,5 @@ The code is licensed under the terms of the MIT license. For further
 information refer to [LICENSE](./LICENSE).
 
 
-[1]: https://doi.org/10.1146/annurev.fluid.29.1.123
+[1]: https://doi.org/10.1115/1.2960953
 [2]: https://doi.org/10.1146/annurev.fluid.29.1.123
