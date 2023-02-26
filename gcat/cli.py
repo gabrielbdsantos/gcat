@@ -65,14 +65,14 @@ def check(
     ),
     area: float = typer.Option(
         default=0.0,
-        help="Area of the computational domain.",
+        help="Area of the computational domain (in squared meters).",
         show_default=False,
         metavar="",
         callback=exclusivity_callback,
     ),
     volume: float = typer.Option(
         default=0.0,
-        help="Volume of the computational domain.",
+        help="Volume of the computational domain (in cubic meters).",
         show_default=False,
         metavar="",
         callback=exclusivity_callback,
@@ -93,25 +93,33 @@ def check(
         return math.pow((total_size / num_elements), (1 / num_dimensions))
 
     # Compute the individual representative sizes
-    h1 = representative_size(n1, total_size, num_dimensions)
-    h2 = representative_size(n2, total_size, num_dimensions)
-    h3 = representative_size(n3, total_size, num_dimensions)
+    h1 = representative_size(n1, total_size, num_dimensions)  # in meters
+    h2 = representative_size(n2, total_size, num_dimensions)  # in meters
+    h3 = representative_size(n3, total_size, num_dimensions)  # in meters
 
     # Compute the refinement ratio
     ratio21 = h2 / h1
     ratio32 = h3 / h2
 
     log = (
-        "Representative grid size",
-        "------------------------",
-        f"h1 = {h1:.6f}",
-        f"h2 = {h2:.6f}",
-        f"h3 = {h3:.6f}",
+        "# Grid summary",
+        "# ------------",
+        f"  N1 = {n1} elements",
+        f"  N2 = {n2} elements",
+        f"  N3 = {n3} elements",
         "",
-        "Refinement ratio",
-        "----------------",
-        f"r21 = {ratio21:.6f}",
-        f"r32 = {ratio32:.6f}",
+        f"  Area = {area} m^2" if area > 0 else f"  Volume = {volume} m^3",
+        "",
+        "# Representative grid size",
+        "# ------------------------",
+        f"  h1 = {h1 * 1e3:.6f} mm",
+        f"  h2 = {h2 * 1e3:.6f} mm",
+        f"  h3 = {h3 * 1e3:.6f} mm",
+        "",
+        "# Refinement ratio",
+        "# ----------------",
+        f"  r21 = {ratio21:.6f}",
+        f"  r32 = {ratio32:.6f}",
     )
 
     typer.echo("\n".join([x for x in log]))
