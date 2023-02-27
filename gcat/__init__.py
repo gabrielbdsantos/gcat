@@ -2,7 +2,7 @@
 # coding=utf-8
 """Grid Convergence Analysis Toolkit (GCAT)."""
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 from .convergence import (
     apparent_order_of_convergence,
