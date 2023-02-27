@@ -5,6 +5,8 @@ import math
 
 import typer
 
+from gcat.convergence import asymptotic_ratio
+
 app = typer.Typer(
     help="A simple cli for the grid convergence analysis toolkit (GCAT)",
     add_completion=False,
@@ -77,7 +79,7 @@ def check(
         metavar="",
         callback=exclusivity_callback,
     ),
-):
+) -> None:
     """Check the representative size and refinement ratios."""
     # Note that area and volume are mutually exclusive. Thus, if volume is
     # zero, it is a two-dimensional case. Otherwise, it will be a
@@ -103,23 +105,102 @@ def check(
 
     log = (
         "# Grid summary",
-        "# ------------",
+        "+ ------------",
         f"  N1 = {n1} elements",
         f"  N2 = {n2} elements",
         f"  N3 = {n3} elements",
-        "",
         f"  Area = {area} m^2" if area > 0 else f"  Volume = {volume} m^3",
         "",
         "# Representative grid size",
-        "# ------------------------",
+        "+ ------------------------",
         f"  h1 = {h1 * 1e3:.6f} mm",
         f"  h2 = {h2 * 1e3:.6f} mm",
         f"  h3 = {h3 * 1e3:.6f} mm",
         "",
         "# Refinement ratio",
-        "# ----------------",
+        "+ ----------------",
         f"  r21 = {ratio21:.6f}",
         f"  r32 = {ratio32:.6f}",
     )
 
-    typer.echo("\n".join([x for x in log]))
+    print("\n".join([x for x in log]))
+
+
+@app.command()
+def gci(
+    h1: float = typer.Option(
+        ...,
+        help="Representative grid size of the fine mesh (in mm).",
+        metavar="",
+    ),
+    h2: float = typer.Option(
+        ...,
+        help="Representative grid size of the medium mesh (in mm).",
+        metavar="",
+    ),
+    h3: float = typer.Option(
+        ...,
+        help="Representative grid size of the coarse mesh (in mm).",
+        metavar="",
+    ),
+    f1: float = typer.Option(
+        ...,
+        help="Model output for the fine mesh.",
+        metavar="",
+    ),
+    f2: float = typer.Option(
+        ...,
+        help="Model output for the medium mesh.",
+        metavar="",
+    ),
+    f3: float = typer.Option(
+        ...,
+        help="Model output for the coarse mesh.",
+        metavar="",
+    ),
+    safety: float = typer.Option(
+        default=1.25,
+        help="Safety factor",
+        metavar="",
+    ),
+) -> None:
+    """Compute the grid convergence index."""
+    from .convergence import (
+        apparent_order_of_convergence,
+        asymptotic_ratio,
+        gci_coarse,
+        gci_fine,
+    )
+
+    p = apparent_order_of_convergence(h1, h2, h3, f1, f2, f3)
+
+    r21 = h2 / h1
+    r32 = h3 / h2
+
+    gci21_fine = gci_fine(f1, f2, r21, p)
+    gci21_coarse = gci_coarse(f1, f2, r21, p)
+
+    gci32_fine = gci_fine(f2, f3, r32, p)
+    gci32_coarse = gci_coarse(f2, f3, r32, p)
+
+    r = asymptotic_ratio(gci21_fine, gci32_fine, r21, p)
+
+    log = (
+        "# Grid summary",
+        "+ ---------------------------------------",
+        f"  h1 = {h1:.6e} m, f1 = {f1:.6e}",
+        f"  h2 = {h2:.6e} m, f2 = {f2:.6e}",
+        f"  h3 = {h3:.6e} m, f3 = {f3:.6e}",
+        "",
+        f"# GCI (safety factor = {safety})",
+        "+ ---------------------------------------",
+        f"  GCI21_fine   = {gci21_fine * safety:.6e}",
+        f"  GCI21_coarse = {gci21_coarse * safety:.6e}",
+        "",
+        f"  GCI32_fine   = {gci32_fine * safety:.6e}",
+        f"  GCI32_coarse = {gci32_coarse * safety:.6e}",
+        "",
+        f"  Asymptotic ratio = {r:.6f}",
+    )
+
+    print("\n".join([x for x in log]))
