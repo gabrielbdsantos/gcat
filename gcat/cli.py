@@ -201,6 +201,7 @@ def gci(
         f"  GCI32_coarse = {gci32_coarse * safety:.6e}",
         "",
         f"  Asymptotic ratio = {r:.6f}",
+        f"  Observed order of convergence = {p:.6f}",
     )
 
     print("\n".join([x for x in log]))
