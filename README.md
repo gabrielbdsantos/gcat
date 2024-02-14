@@ -4,50 +4,50 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![black](https://github.com/gabrielbdsantos/gcat/actions/workflows/black.yml/badge.svg?branch=master&event=push)](https://github.com/gabrielbdsantos/gcat/actions/workflows/black.yml)
 
-The implementation is completed. Thus, do not expect updates to the repository
+[!NOTE]
+The implementation is completed. Thus, do not expect updates to the code
 anymore.
 
 ## Installation
 
+### Rye
 
-### Poetry (recommended)
-  
-Clone the repository
+1. Clone the repository
 
-    git clone https://github.com/gabrielbdsantos/gcat
-    cd gcat
+       git clone https://github.com/gabrielbdsantos/gcat
+       cd gcat
 
-Create a virtual environment (optional)
+2. Pin a specific Python version (optional)
 
-    poetry env use python3
+       rye pin 3.x
 
-Install GCAT
+3. Install
 
-    poetry install --with cli
+       rye sync
 
-Activate it
+4. Activate the virtual environment.
 
-    source $(poetry env info --path)/bin/activate
+       source .venv/bin/activate
 
 
 ### Pip
-  
-Clone the repository
 
-    git clone https://github.com/gabrielbdsantos/gcat
-    cd gcat
+1. Clone the repository
 
-Create a virtual environment (optional)
+       git clone https://github.com/gabrielbdsantos/gcat
+       cd gcat
 
-    python3 -m venv .venv --clear
+2. Create a virtual environment (optional)
 
-Install
+       python3 -m venv .venv --clear
 
-    pip install -r requirements.txt -e .
+3. Install
 
-Activate it
+       pip install -r requirements.lock
 
-    source .venv/bin/activate
+4. Activate it
+
+       source .venv/bin/activate
 
 
 ## Quick start
@@ -90,20 +90,20 @@ Activate it
          GCI32_fine   = 4.630449e-02
          GCI32_coarse = 1.382163e-01
 
-         Asymptotic ratio = 1.012321  
-  
-  
+         Asymptotic ratio = 1.012321
+
+
 ## References
-  
+
  1. I. B. Celik, U. Ghia, P. J. Roache, C. J. Freitas, H. Coleman, and P. E.
     Raad, Procedure for Estimation and Reporting of Uncertainty Due to
     Discretization in CFD Applications,” J. Fluids Eng., vol. 130, no. 7, p.
     078001, Jul. 2008, doi: [10.1115/1.2960953][1].
-   
+
  2. P. J. Roache, Quantification of Uncertainty in Computational Fluid Dynamics,
     Annu. Rev. Fluid Mech., vol. 29, no. 1, pp. 123–160, Jan. 1997, doi:
     [10.1146/annurev.fluid.29.1.123][2].
-   
+
  3. Examining Spatial (Grid) Convergence.
     https://www.grc.nasa.gov/WWW/wind/valid/tutorial/spatconv.html (accessed
     Oct. 22, 2020).
