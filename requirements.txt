@@ -1,6 +1,0 @@
-click==8.0.3 ; python_full_version >= "3.6.2"
-colorama==0.4.4 ; platform_system == "Windows" and python_full_version >= "3.6.2"
-importlib-metadata==4.8.3 ; python_version < "3.8" and python_full_version >= "3.6.2"
-typer==0.7.0 ; python_full_version >= "3.6.2"
-typing-extensions==4.0.1 ; python_version < "3.8" and python_full_version >= "3.6.2"
-zipp==3.6.0 ; python_version < "3.8" and python_full_version >= "3.6.2"
