@@ -5,7 +5,7 @@ import math
 
 import typer
 
-from gcat.convergence import asymptotic_ratio
+import gcat
 
 app = typer.Typer(
     help="A simple cli for the grid convergence analysis toolkit (GCAT)",
@@ -165,25 +165,18 @@ def gci(
     ),
 ) -> None:
     """Compute the grid convergence index."""
-    from .convergence import (
-        apparent_order_of_convergence,
-        asymptotic_ratio,
-        gci_coarse,
-        gci_fine,
-    )
-
-    p = apparent_order_of_convergence(h1, h2, h3, f1, f2, f3)
+    p = gcat.convergence.apparent_order_of_convergence(h1, h2, h3, f1, f2, f3)
 
     r21 = h2 / h1
     r32 = h3 / h2
 
-    gci21_fine = gci_fine(f1, f2, r21, p)
-    gci21_coarse = gci_coarse(f1, f2, r21, p)
+    gci21_fine = gcat.convergence.gci_fine(f1, f2, r21, p)
+    gci21_coarse = gcat.convergence.gci_coarse(f1, f2, r21, p)
 
-    gci32_fine = gci_fine(f2, f3, r32, p)
-    gci32_coarse = gci_coarse(f2, f3, r32, p)
+    gci32_fine = gcat.convergence.gci_fine(f2, f3, r32, p)
+    gci32_coarse = gcat.convergence.gci_coarse(f2, f3, r32, p)
 
-    r = asymptotic_ratio(gci21_fine, gci32_fine, r21, p)
+    r = gcat.convergence.asymptotic_ratio(gci21_fine, gci32_fine, r21, p)
 
     log = (
         "# Grid summary",
