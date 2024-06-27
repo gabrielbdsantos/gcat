@@ -170,11 +170,11 @@ def gci(
     r21 = h2 / h1
     r32 = h3 / h2
 
-    gci21_fine = gcat.convergence.gci_fine(f1, f2, r21, p)
-    gci21_coarse = gcat.convergence.gci_coarse(f1, f2, r21, p)
+    gci21_fine = gcat.convergence.gci_fine(f1, f2, r21, p, safety)
+    gci21_coarse = gcat.convergence.gci_coarse(f1, f2, r21, p, safety)
 
-    gci32_fine = gcat.convergence.gci_fine(f2, f3, r32, p)
-    gci32_coarse = gcat.convergence.gci_coarse(f2, f3, r32, p)
+    gci32_fine = gcat.convergence.gci_fine(f2, f3, r32, p, safety)
+    gci32_coarse = gcat.convergence.gci_coarse(f2, f3, r32, p, safety)
 
     r = gcat.convergence.asymptotic_ratio(gci21_fine, gci32_fine, r21, p)
 
@@ -187,11 +187,11 @@ def gci(
         "",
         f"# GCI (safety factor = {safety})",
         "+ ---------------------------------------",
-        f"  GCI21_fine   = {gci21_fine * safety:.6e}",
-        f"  GCI21_coarse = {gci21_coarse * safety:.6e}",
+        f"  GCI21_fine   = {gci21_fine:.6e}",
+        f"  GCI21_coarse = {gci21_coarse:.6e}",
         "",
-        f"  GCI32_fine   = {gci32_fine * safety:.6e}",
-        f"  GCI32_coarse = {gci32_coarse * safety:.6e}",
+        f"  GCI32_fine   = {gci32_fine:.6e}",
+        f"  GCI32_coarse = {gci32_coarse:.6e}",
         "",
         f"  Asymptotic ratio = {r:.6f}",
         f"  Observed order of convergence = {p:.6f}",

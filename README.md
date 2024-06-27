@@ -78,19 +78,20 @@
        $ gcat gci --h1 8.30 --h2 10.84 --h3 14.14 --f1 1 --f2 1.02 --f3 1.08
        # Grid summary
        + ---------------------------------------
-         h1 = 8.300000e+00 m, f1 = 1.000000e+00
-         h2 = 1.084000e+01 m, f2 = 1.020000e+00
-         h3 = 1.414000e+01 m, f3 = 1.080000e+00
+       h1 = 8.300000e+00 m, f1 = 1.000000e+00
+       h2 = 1.084000e+01 m, f2 = 1.020000e+00
+       h3 = 1.414000e+01 m, f3 = 1.080000e+00
 
        # GCI (safety factor = 1.25)
        + ---------------------------------------
-         GCI21_fine   = 1.562500e-02
-         GCI21_coarse = 4.687500e-02
+       GCI21_fine   = 1.235897e-02
+       GCI21_coarse = 3.735897e-02
 
-         GCI32_fine   = 4.630449e-02
-         GCI32_coarse = 1.382163e-01
+       GCI32_fine   = 3.662651e-02
+       GCI32_coarse = 1.101559e-01
 
-         Asymptotic ratio = 1.012321
+       Asymptotic ratio = 1.019998
+       Observed order of convergence = 4.143231
 
 
 ## References
