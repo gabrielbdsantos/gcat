@@ -93,7 +93,7 @@ def apparent_order_of_convergence(
     s = 1 - 2 * (epsilon_ratio < 0)
 
     # Initial values for the iteration loop
-    residual = 0
+    residual = tol + 1.0
     iterations = 0
     p = (1.0 / math.log(r21)) * abs(math.log(abs(epsilon_ratio)))
 

@@ -1,6 +1,6 @@
 [project]
 name = "gcat"
-version = "1.2.0"
+version = "1.2.1"
 description = "A grid convergence analysis toolkit (GCAT) in Python."
 authors = [
     { name = "Gabriel B. Santos", email = "gabriel.bertacco@unesp.br" }
