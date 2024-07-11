@@ -32,7 +32,7 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["gcat"]
 
-[tool.black]
+[tool.ruff]
 line-length = 79
 
 [tool.pydocstyle]
